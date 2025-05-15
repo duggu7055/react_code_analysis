@@ -16,11 +16,10 @@ class ListSalary extends React.Component {
       })
       .catch((err) => {
         // Option 1: Remove console.error to satisfy lint rules
-        // You could handle error differently, e.g., set error state, show message
         // this.setState({ error: err.toString() });
 
-        // Option 2: If you want to keep console.error, disable ESLint for this line:
-        // console.error(this.props.url, err.toString()); // eslint-disable-line no-console
+        // Option 2: Keep console.error but disable ESLint for this line:
+        console.error(err.toString()); // eslint-disable-line no-console
       });
   }
 
