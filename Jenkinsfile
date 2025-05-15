@@ -13,7 +13,8 @@ pipeline {
         }
         stage('Run Tests') {
             steps {
-                sh 'npm test'
+                // Run Jest tests with coverage
+                sh 'npm test -- --coverage'
             }
         }
         stage('SonarQube Analysis') {
@@ -22,9 +23,15 @@ pipeline {
             }
             steps {
                 withSonarQubeEnv('SonarQube') {
-                    sh '${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=my-project'
+                    // Pass the coverage report path to SonarQube
+                    sh """
+                    ${scannerHome}/bin/sonar-scanner \
+                    -Dsonar.projectKey=my-project \
+                    -Dsonar.sources=src \
+                    -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+                    """
                 }
             }
-        }
-    }
+        }
+    }
 }
