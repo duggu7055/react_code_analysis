@@ -22,22 +22,25 @@ const navBarItems = [
 ];
 
 class SiteWrapper extends React.Component {
-  state = {
-    notificationsObjects: [
-      {
-        unread: true,
-        avatarURL: "demo/faces/male/41.jpg",
-        message: (
-          <>
-            <strong>Nathan</strong> pushed new commit: Fix page load performance
-            issue.
-          </>
-        ),
-        time: "10 minutes ago",
-      },
-      // ... other notifications
-    ],
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      notificationsObjects: [
+        {
+          unread: true,
+          avatarURL: "demo/faces/male/41.jpg",
+          message: (
+            <>
+              <strong>Nathan</strong> pushed new commit: Fix page load performance
+              issue.
+            </>
+          ),
+          time: "10 minutes ago",
+        },
+        // ... other notifications
+      ],
+    };
+  }
 
   render() {
     const notificationsObjects = this.state.notificationsObjects || [];
@@ -107,3 +110,18 @@ class SiteWrapper extends React.Component {
                   outline
                   color="primary"
                   RootComponent="a"
+                >
+                  Source code
+                </Button>
+              </Grid.Col>
+            </>
+          ),
+        }}
+      >
+        {this.props.children}
+      </Site.Wrapper>
+    );
+  }
+}
+
+export default SiteWrapper;
