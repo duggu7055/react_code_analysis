@@ -1,71 +1,105 @@
-import react, * as React from "react";
+import * as React from "react";
 import { Page, Grid } from "tabler-react";
 import SiteWrapper from "./SiteWrapper.react";
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { withFormik } from 'formik';
+import { Button, Form, FormGroup, Label, Input } from "reactstrap";
+import { withFormik } from "formik";
 
-const AttendanceForm = ({ values, handleChange, handleSubmit, errors, touched, isSubmitting }) => {
+const AttendanceForm = ({
+  values,
+  handleChange,
+  handleSubmit,
+  errors,
+  touched,
+  isSubmitting,
+}) => {
   return (
     <SiteWrapper>
-      <Page.Card
-            title="Employee Registration"
-        ></Page.Card>
-        <Grid.Col md={6} lg={6} className="align-self-center">
+      <Page.Card title="Employee Registration"></Page.Card>
+      <Grid.Col md={6} lg={6} className="align-self-center">
         <Form onSubmit={handleSubmit}>
           <FormGroup>
-            {touched.id && errors.id && <p className="red">{errors.id}</p>}
+            {touched.id && errors.id && <p className="text-danger">{errors.id}</p>}
             <Label for="id">Employee ID</Label>
-            <Input 
-              type="number" 
+            <Input
+              type="number"
               name="id"
               value={values.id}
               onChange={handleChange}
-              id="id" 
-              placeholder="Employee ID" 
+              id="id"
+              placeholder="Employee ID"
             />
           </FormGroup>
           <FormGroup>
-            {touched.status && errors.status && <p className="red">{errors.status}</p>}
+            {touched.status && errors.status && (
+              <p className="text-danger">{errors.status}</p>
+            )}
             <Label for="status">Status</Label>
-            <Input type="select" name="status" id="status" value={values.status} onChange={handleChange}>
-              <option>Select Status</option>
-              <option>Present</option>
-              <option>Absent</option>
+            <Input
+              type="select"
+              name="status"
+              id="status"
+              value={values.status}
+              onChange={handleChange}
+            >
+              <option value="">Select Status</option>
+              <option value="Present">Present</option>
+              <option value="Absent">Absent</option>
             </Input>
           </FormGroup>
-
           <FormGroup>
-            {touched.date && errors.date && <p className="red">{errors.date}</p>}
+            {touched.date && errors.date && (
+              <p className="text-danger">{errors.date}</p>
+            )}
             <Label for="date">Date</Label>
             <Input
               type="date"
               name="date"
               id="date"
-              placeholder="datetime placeholder"
-              value={values.date} 
+              value={values.date}
               onChange={handleChange}
             />
           </FormGroup>
-          <Button color="primary" disabled={isSubmitting}>Submit</Button>
+          <Button color="primary" disabled={isSubmitting}>
+            Submit
+          </Button>
         </Form>
-    </Grid.Col>
+      </Grid.Col>
     </SiteWrapper>
   );
-}
+};
 
 const FormikApp = withFormik({
-  mapPropsToValues({ username, password }) {
-    return { username, password }
+  mapPropsToValues() {
+    return {
+      id: "",
+      status: "",
+      date: "",
+    };
   },
-  handleSubmit(values, { props, resetForm, setErrors, setSubmitting }) {
-    console.log(JSON.stringify(values))
-    fetch('/attendance/create', {
-      method: 'POST',
+  handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
+    fetch("/attendance/create", {
+      method: "POST",
       body: JSON.stringify(values),
       headers: {
-          'Content-Type': 'application/json'
-    }})
-  }
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to submit form");
+        }
+        return response.json();
+      })
+      .then(() => {
+        resetForm();
+        setSubmitting(false);
+      })
+      .catch((error) => {
+        setErrors({ api: "Error submitting form. Please try again." });
+        setSubmitting(false);
+        console.error(error);
+      });
+  },
 })(AttendanceForm);
 
-export default FormikApp
+export default FormikApp;
