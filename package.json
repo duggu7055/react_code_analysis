@@ -28,6 +28,12 @@
     "tabler-react": "^2.0.0-alpha.1",
     "yup": "^0.29.1"
   },
+  "devDependencies": {
+    "jest": "^29.5.0",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/user-event": "^14.4.3"
+  },
   "scripts": {
     "start": "react-scripts start",
     "watch": "react-scripts start --watch",
