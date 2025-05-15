@@ -17,6 +17,7 @@ const AttendanceForm = ({
       <Page.Card title="Employee Registration"></Page.Card>
       <Grid.Col md={6} lg={6} className="align-self-center">
         <Form onSubmit={handleSubmit}>
+          {errors.api && <p className="text-danger">{errors.api}</p>}
           <FormGroup>
             {touched.id && errors.id && <p className="text-danger">{errors.id}</p>}
             <Label for="id">Employee ID</Label>
@@ -94,10 +95,10 @@ const FormikApp = withFormik({
         resetForm();
         setSubmitting(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setErrors({ api: "Error submitting form. Please try again." });
         setSubmitting(false);
-        console.error(error);
+        // Removed console.error for lint compliance
       });
   },
 })(AttendanceForm);
