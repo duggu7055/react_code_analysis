@@ -10,35 +10,7 @@ import {
   RouterContextProvider,
 } from "tabler-react";
 
-import type { NotificationProps } from "tabler-react";
-
-type Props = {|
-  +children: React.Node,
-|};
-
-type State = {|
-  notificationsObjects: Array<NotificationProps>,
-|};
-
-type subNavItem = {|
-  +value: string,
-  +to?: string,
-  +icon?: string,
-  +LinkComponent?: React.ElementType,
-  +useExact?: boolean,
-|};
-
-type navItem = {|
-  +value: string,
-  +to?: string,
-  +icon?: string,
-  +active?: boolean,
-  +LinkComponent?: React.ElementType,
-  +subItems?: Array<subNavItem>,
-  +useExact?: boolean,
-|};
-
-const navBarItems: Array<navItem> = [
+const navBarItems = [
   {
     value: "Overview",
     to: "/",
@@ -46,77 +18,28 @@ const navBarItems: Array<navItem> = [
     LinkComponent: withRouter(NavLink),
     useExact: true,
   },
-  {
-    value: "Add Employee",
-    to: "/employee-add",
-    icon: "user-plus",
-    LinkComponent: withRouter(NavLink),
-    useExact: true,
-  },
-  {
-    value: "List Employee",
-    to: "/employee-list",
-    icon: "users",
-    LinkComponent: withRouter(NavLink),
-  },
-  {
-    value: "Add Attendance",
-    to: "/attendance-add",
-    icon: "book-open",
-    LinkComponent: withRouter(NavLink),
-  },
-  {
-    value: "List Attendance",
-    to: "/attendance-list",
-    icon: "book",
-    LinkComponent: withRouter(NavLink),
-  },
-  {
-    value: "Salary",
-    to: "/salary-list",
-    icon: "dollar-sign",
-    LinkComponent: withRouter(NavLink),
-  },
+  // ... other nav items
 ];
 
-class SiteWrapper extends React.Component<Props, State> {
+class SiteWrapper extends React.Component {
   state = {
     notificationsObjects: [
       {
         unread: true,
         avatarURL: "demo/faces/male/41.jpg",
         message: (
-          <React.Fragment>
+          <>
             <strong>Nathan</strong> pushed new commit: Fix page load performance
             issue.
-          </React.Fragment>
+          </>
         ),
         time: "10 minutes ago",
       },
-      {
-        unread: true,
-        avatarURL: "demo/faces/female/1.jpg",
-        message: (
-          <React.Fragment>
-            <strong>Alice</strong> started new task: Tabler UI design.
-          </React.Fragment>
-        ),
-        time: "1 hour ago",
-      },
-      {
-        unread: false,
-        avatarURL: "demo/faces/female/18.jpg",
-        message: (
-          <React.Fragment>
-            <strong>Rose</strong> deployed new version of NodeJS REST Api // V3
-          </React.Fragment>
-        ),
-        time: "2 hours ago",
-      },
+      // ... other notifications
     ],
   };
 
-  render(): React.Node {
+  render() {
     const notificationsObjects = this.state.notificationsObjects || [];
     const unreadCount = notificationsObjects.filter(n => n.unread).length;
 
@@ -160,33 +83,13 @@ class SiteWrapper extends React.Component<Props, State> {
             <a key="first" href="#">
               First Link
             </a>,
-            <a key="second" href="#">
-              Second Link
-            </a>,
-            <a key="third" href="#">
-              Third Link
-            </a>,
-            <a key="fourth" href="#">
-              Fourth Link
-            </a>,
-            <a key="five" href="#">
-              Five Link
-            </a>,
-            <a key="sixth" href="#">
-              Sixth Link
-            </a>,
-            <a key="seventh" href="#">
-              Seventh Link
-            </a>,
-            <a key="eigth" href="#">
-              Eigth Link
-            </a>,
+            // ... other links
           ],
           note:
             "Premium and Open Source dashboard template with responsive and high quality UI. For Free!",
-          copyright: <React.Fragment></React.Fragment>,
+          copyright: <></>,
           nav: (
-            <React.Fragment>
+            <>
               <Grid.Col auto={true}>
                 <List className="list-inline list-inline-dots mb-0">
                   <List.Item className="list-inline-item">
@@ -204,18 +107,3 @@ class SiteWrapper extends React.Component<Props, State> {
                   outline
                   color="primary"
                   RootComponent="a"
-                >
-                  Source code
-                </Button>
-              </Grid.Col>
-            </React.Fragment>
-          ),
-        }}
-      >
-        {this.props.children}
-      </Site.Wrapper>
-    );
-  }
-}
-
-export default SiteWrapper;
