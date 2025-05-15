@@ -118,19 +118,17 @@ class SiteWrapper extends React.Component<Props, State> {
 
   render(): React.Node {
     const notificationsObjects = this.state.notificationsObjects || [];
-    const unreadCount = this.state.notificationsObjects.reduce(
-      (a, v) => a || v.unread,
-      false
-    );
+    const unreadCount = notificationsObjects.filter(n => n.unread).length;
+
     return (
       <Site.Wrapper
         headerProps={{
           href: "/",
           alt: "",
-          imageURL: "https://www.buildpiper.io/wp-content/uploads/2022/05/logo_black.png",
+          imageURL:
+            "https://www.buildpiper.io/wp-content/uploads/2022/05/logo_black.png",
           navItems: (
-            <Nav.Item type="div" className="d-none d-md-flex">
-            </Nav.Item>
+            <Nav.Item type="div" className="d-none d-md-flex"></Nav.Item>
           ),
           notificationsTray: {
             notificationsObjects,
@@ -138,7 +136,7 @@ class SiteWrapper extends React.Component<Props, State> {
               this.setState(
                 () => ({
                   notificationsObjects: this.state.notificationsObjects.map(
-                    v => ({ ...v, unread: false })
+                    (v) => ({ ...v, unread: false })
                   ),
                 }),
                 () =>
@@ -146,7 +144,7 @@ class SiteWrapper extends React.Component<Props, State> {
                     () =>
                       this.setState({
                         notificationsObjects: this.state.notificationsObjects.map(
-                          v => ({ ...v, unread: true })
+                          (v) => ({ ...v, unread: true })
                         ),
                       }),
                     5000
@@ -159,21 +157,34 @@ class SiteWrapper extends React.Component<Props, State> {
         routerContextComponentType={withRouter(RouterContextProvider)}
         footerProps={{
           links: [
-            <a href="#">First Link</a>,
-            <a href="#">Second Link</a>,
-            <a href="#">Third Link</a>,
-            <a href="#">Fourth Link</a>,
-            <a href="#">Five Link</a>,
-            <a href="#">Sixth Link</a>,
-            <a href="#">Seventh Link</a>,
-            <a href="#">Eigth Link</a>,
+            <a key="first" href="#">
+              First Link
+            </a>,
+            <a key="second" href="#">
+              Second Link
+            </a>,
+            <a key="third" href="#">
+              Third Link
+            </a>,
+            <a key="fourth" href="#">
+              Fourth Link
+            </a>,
+            <a key="five" href="#">
+              Five Link
+            </a>,
+            <a key="sixth" href="#">
+              Sixth Link
+            </a>,
+            <a key="seventh" href="#">
+              Seventh Link
+            </a>,
+            <a key="eigth" href="#">
+              Eigth Link
+            </a>,
           ],
           note:
             "Premium and Open Source dashboard template with responsive and high quality UI. For Free!",
-          copyright: (
-            <React.Fragment>
-            </React.Fragment>
-          ),
+          copyright: <React.Fragment></React.Fragment>,
           nav: (
             <React.Fragment>
               <Grid.Col auto={true}>
